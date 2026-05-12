@@ -1,9 +1,11 @@
 import { Form, Head } from '@inertiajs/react';
-import InputError from '@/components/input-error';
-import PasswordInput from '@/components/password-input';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
+import {
+    MarkusButton,
+    MarkusInputError,
+    MarkusLabel,
+    MarkusPasswordInput,
+    MarkusSpinner,
+} from '@/components/markus/markus-ui';
 import { store } from '@/routes/password/confirm';
 
 export default function ConfirmPassword() {
@@ -15,28 +17,25 @@ export default function ConfirmPassword() {
                 {({ processing, errors }) => (
                     <div className="space-y-6">
                         <div className="grid gap-2">
-                            <Label htmlFor="password">Password</Label>
-                            <PasswordInput
+                            <MarkusLabel htmlFor="password">Password</MarkusLabel>
+                            <MarkusPasswordInput
                                 id="password"
                                 name="password"
                                 placeholder="Password"
                                 autoComplete="current-password"
                                 autoFocus
                             />
-
-                            <InputError message={errors.password} />
+                            <MarkusInputError message={errors.password} />
                         </div>
 
-                        <div className="flex items-center">
-                            <Button
-                                className="w-full"
-                                disabled={processing}
-                                data-test="confirm-password-button"
-                            >
-                                {processing && <Spinner />}
-                                Confirm password
-                            </Button>
-                        </div>
+                        <MarkusButton
+                            className="w-full"
+                            disabled={processing}
+                            data-test="confirm-password-button"
+                        >
+                            {processing && <MarkusSpinner />}
+                            Confirm password
+                        </MarkusButton>
                     </div>
                 )}
             </Form>

@@ -2,10 +2,9 @@ import { createInertiaApp } from '@inertiajs/react';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { initializeTheme } from '@/hooks/use-appearance';
-import AppLayout from '@/layouts/app-layout';
-import AuthLayout from '@/layouts/auth-layout';
+import MarkusAuthLayout from '@/layouts/markus-auth-layout';
 import MarkusLayout from '@/layouts/markus-layout';
-import SettingsLayout from '@/layouts/settings/layout';
+import MarkusSettingsLayout from '@/layouts/markus-settings-layout';
 
 const appName = import.meta.env.VITE_APP_NAME || 'MarkusAI';
 
@@ -27,13 +26,13 @@ createInertiaApp({
             case name === 'welcome':
                 return null;
             case name.startsWith('auth/'):
-                return AuthLayout;
+                return MarkusAuthLayout;
             case name.startsWith('settings/'):
-                return [AppLayout, SettingsLayout];
+                return [MarkusLayout, MarkusSettingsLayout];
             case isMarkusPage(name):
                 return MarkusLayout;
             default:
-                return AppLayout;
+                return MarkusLayout;
         }
     },
     strictMode: true,

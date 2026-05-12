@@ -2,13 +2,15 @@ import { Form, Head } from '@inertiajs/react';
 import { ShieldCheck } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import SecurityController from '@/actions/App/Http/Controllers/Settings/SecurityController';
-import Heading from '@/components/heading';
-import InputError from '@/components/input-error';
-import PasswordInput from '@/components/password-input';
 import TwoFactorRecoveryCodes from '@/components/two-factor-recovery-codes';
 import TwoFactorSetupModal from '@/components/two-factor-setup-modal';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
+import {
+    MarkusButton,
+    MarkusInputError,
+    MarkusLabel,
+    MarkusPasswordInput,
+    MarkusSpinner,
+} from '@/components/markus/markus-ui';
 import { useTwoFactorAuth } from '@/hooks/use-two-factor-auth';
 import { edit } from '@/routes/security';
 import { disable, enable } from '@/routes/two-factor';
@@ -38,14 +40,13 @@ export default function Security({
         fetchRecoveryCodes,
         errors,
     } = useTwoFactorAuth();
-    const [showSetupModal, setShowSetupModal] = useState<boolean>(false);
+    const [showSetupModal, setShowSetupModal] = useState(false);
     const prevTwoFactorEnabled = useRef(twoFactorEnabled);
 
     useEffect(() => {
         if (prevTwoFactorEnabled.current && !twoFactorEnabled) {
             clearTwoFactorAuthData();
         }
-
         prevTwoFactorEnabled.current = twoFactorEnabled;
     }, [twoFactorEnabled, clearTwoFactorAuthData]);
 
@@ -56,94 +57,69 @@ export default function Security({
             <h1 className="sr-only">Security settings</h1>
 
             <div className="space-y-6">
-                <Heading
-                    variant="small"
-                    title="Update password"
-                    description="Ensure your account is using a long, random password to stay secure"
-                />
+                <div>
+                    <h3 className="text-base font-medium text-[#E0E0E1]">
+                        Update password
+                    </h3>
+                    <p className="text-sm text-[#6B6B76]">
+                        Ensure your account is using a long, random password to stay secure
+                    </p>
+                </div>
 
                 <Form
                     {...SecurityController.update.form()}
-                    options={{
-                        preserveScroll: true,
-                    }}
-                    resetOnError={[
-                        'password',
-                        'password_confirmation',
-                        'current_password',
-                    ]}
+                    options={{ preserveScroll: true }}
+                    resetOnError={['password', 'password_confirmation', 'current_password']}
                     resetOnSuccess
                     onError={(errors) => {
-                        if (errors.password) {
-                            passwordInput.current?.focus();
-                        }
-
-                        if (errors.current_password) {
-                            currentPasswordInput.current?.focus();
-                        }
+                        if (errors.password) passwordInput.current?.focus();
+                        if (errors.current_password) currentPasswordInput.current?.focus();
                     }}
                     className="space-y-6"
                 >
                     {({ errors, processing }) => (
                         <>
                             <div className="grid gap-2">
-                                <Label htmlFor="current_password">
-                                    Current password
-                                </Label>
-
-                                <PasswordInput
+                                <MarkusLabel htmlFor="current_password">Current password</MarkusLabel>
+                                <MarkusPasswordInput
                                     id="current_password"
                                     ref={currentPasswordInput}
                                     name="current_password"
-                                    className="mt-1 block w-full"
                                     autoComplete="current-password"
                                     placeholder="Current password"
                                 />
-
-                                <InputError message={errors.current_password} />
+                                <MarkusInputError message={errors.current_password} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password">New password</Label>
-
-                                <PasswordInput
+                                <MarkusLabel htmlFor="password">New password</MarkusLabel>
+                                <MarkusPasswordInput
                                     id="password"
                                     ref={passwordInput}
                                     name="password"
-                                    className="mt-1 block w-full"
                                     autoComplete="new-password"
                                     placeholder="New password"
                                 />
-
-                                <InputError message={errors.password} />
+                                <MarkusInputError message={errors.password} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password_confirmation">
+                                <MarkusLabel htmlFor="password_confirmation">
                                     Confirm password
-                                </Label>
-
-                                <PasswordInput
+                                </MarkusLabel>
+                                <MarkusPasswordInput
                                     id="password_confirmation"
                                     name="password_confirmation"
-                                    className="mt-1 block w-full"
                                     autoComplete="new-password"
                                     placeholder="Confirm password"
                                 />
-
-                                <InputError
-                                    message={errors.password_confirmation}
-                                />
+                                <MarkusInputError message={errors.password_confirmation} />
                             </div>
 
-                            <div className="flex items-center gap-4">
-                                <Button
-                                    disabled={processing}
-                                    data-test="update-password-button"
-                                >
-                                    Save password
-                                </Button>
-                            </div>
+                            <MarkusButton disabled={processing} data-test="update-password-button">
+                                {processing && <MarkusSpinner />}
+                                Save password
+                            </MarkusButton>
                         </>
                     )}
                 </Form>
@@ -151,32 +127,29 @@ export default function Security({
 
             {canManageTwoFactor && (
                 <div className="space-y-6">
-                    <Heading
-                        variant="small"
-                        title="Two-factor authentication"
-                        description="Manage your two-factor authentication settings"
-                    />
+                    <div>
+                        <h3 className="text-base font-medium text-[#E0E0E1]">
+                            Two-factor authentication
+                        </h3>
+                        <p className="text-sm text-[#6B6B76]">
+                            Manage your two-factor authentication settings
+                        </p>
+                    </div>
+
                     {twoFactorEnabled ? (
                         <div className="flex flex-col items-start justify-start space-y-4">
-                            <p className="text-sm text-muted-foreground">
-                                You will be prompted for a secure, random pin
-                                during login, which you can retrieve from the
-                                TOTP-supported application on your phone.
+                            <p className="text-sm text-[#9A9A9E]">
+                                You will be prompted for a secure, random pin during login,
+                                which you can retrieve from the TOTP-supported application on your phone.
                             </p>
 
-                            <div className="relative inline">
-                                <Form {...disable.form()}>
-                                    {({ processing }) => (
-                                        <Button
-                                            variant="destructive"
-                                            type="submit"
-                                            disabled={processing}
-                                        >
-                                            Disable 2FA
-                                        </Button>
-                                    )}
-                                </Form>
-                            </div>
+                            <Form {...disable.form()}>
+                                {({ processing }) => (
+                                    <MarkusButton variant="destructive" type="submit" disabled={processing}>
+                                        Disable 2FA
+                                    </MarkusButton>
+                                )}
+                            </Form>
 
                             <TwoFactorRecoveryCodes
                                 recoveryCodesList={recoveryCodesList}
@@ -186,35 +159,27 @@ export default function Security({
                         </div>
                     ) : (
                         <div className="flex flex-col items-start justify-start space-y-4">
-                            <p className="text-sm text-muted-foreground">
-                                When you enable two-factor authentication, you
-                                will be prompted for a secure pin during login.
-                                This pin can be retrieved from a TOTP-supported
+                            <p className="text-sm text-[#9A9A9E]">
+                                When you enable two-factor authentication, you will be prompted for a
+                                secure pin during login. This pin can be retrieved from a TOTP-supported
                                 application on your phone.
                             </p>
 
                             <div>
                                 {hasSetupData ? (
-                                    <Button
-                                        onClick={() => setShowSetupModal(true)}
-                                    >
-                                        <ShieldCheck />
+                                    <MarkusButton onClick={() => setShowSetupModal(true)}>
+                                        <ShieldCheck className="mr-2 h-4 w-4" />
                                         Continue setup
-                                    </Button>
+                                    </MarkusButton>
                                 ) : (
                                     <Form
                                         {...enable.form()}
-                                        onSuccess={() =>
-                                            setShowSetupModal(true)
-                                        }
+                                        onSuccess={() => setShowSetupModal(true)}
                                     >
                                         {({ processing }) => (
-                                            <Button
-                                                type="submit"
-                                                disabled={processing}
-                                            >
+                                            <MarkusButton type="submit" disabled={processing}>
                                                 Enable 2FA
-                                            </Button>
+                                            </MarkusButton>
                                         )}
                                     </Form>
                                 )}

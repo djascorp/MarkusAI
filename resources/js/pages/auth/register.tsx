@@ -1,11 +1,13 @@
 import { Form, Head } from '@inertiajs/react';
-import InputError from '@/components/input-error';
-import PasswordInput from '@/components/password-input';
-import TextLink from '@/components/text-link';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
+import {
+    MarkusButton,
+    MarkusInput,
+    MarkusInputError,
+    MarkusLabel,
+    MarkusPasswordInput,
+    MarkusSpinner,
+    MarkusTextLink,
+} from '@/components/markus/markus-ui';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
 
@@ -13,6 +15,7 @@ export default function Register() {
     return (
         <>
             <Head title="Register" />
+
             <Form
                 {...store.form()}
                 resetOnSuccess={['password', 'password_confirmation']}
@@ -23,8 +26,8 @@ export default function Register() {
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="name">Name</Label>
-                                <Input
+                                <MarkusLabel htmlFor="name">Name</MarkusLabel>
+                                <MarkusInput
                                     id="name"
                                     type="text"
                                     required
@@ -34,15 +37,12 @@ export default function Register() {
                                     name="name"
                                     placeholder="Full name"
                                 />
-                                <InputError
-                                    message={errors.name}
-                                    className="mt-2"
-                                />
+                                <MarkusInputError message={errors.name} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
-                                <Input
+                                <MarkusLabel htmlFor="email">Email address</MarkusLabel>
+                                <MarkusInput
                                     id="email"
                                     type="email"
                                     required
@@ -51,12 +51,12 @@ export default function Register() {
                                     name="email"
                                     placeholder="email@example.com"
                                 />
-                                <InputError message={errors.email} />
+                                <MarkusInputError message={errors.email} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password">Password</Label>
-                                <PasswordInput
+                                <MarkusLabel htmlFor="password">Password</MarkusLabel>
+                                <MarkusPasswordInput
                                     id="password"
                                     required
                                     tabIndex={3}
@@ -64,14 +64,14 @@ export default function Register() {
                                     name="password"
                                     placeholder="Password"
                                 />
-                                <InputError message={errors.password} />
+                                <MarkusInputError message={errors.password} />
                             </div>
 
                             <div className="grid gap-2">
-                                <Label htmlFor="password_confirmation">
+                                <MarkusLabel htmlFor="password_confirmation">
                                     Confirm password
-                                </Label>
-                                <PasswordInput
+                                </MarkusLabel>
+                                <MarkusPasswordInput
                                     id="password_confirmation"
                                     required
                                     tabIndex={4}
@@ -79,27 +79,25 @@ export default function Register() {
                                     name="password_confirmation"
                                     placeholder="Confirm password"
                                 />
-                                <InputError
-                                    message={errors.password_confirmation}
-                                />
+                                <MarkusInputError message={errors.password_confirmation} />
                             </div>
 
-                            <Button
+                            <MarkusButton
                                 type="submit"
                                 className="mt-2 w-full"
                                 tabIndex={5}
                                 data-test="register-user-button"
                             >
-                                {processing && <Spinner />}
+                                {processing && <MarkusSpinner />}
                                 Create account
-                            </Button>
+                            </MarkusButton>
                         </div>
 
-                        <div className="text-center text-sm text-muted-foreground">
+                        <div className="text-center text-sm text-[#6B6B76]">
                             Already have an account?{' '}
-                            <TextLink href={login()} tabIndex={6}>
+                            <MarkusTextLink href={login()} tabIndex={6}>
                                 Log in
-                            </TextLink>
+                            </MarkusTextLink>
                         </div>
                     </>
                 )}

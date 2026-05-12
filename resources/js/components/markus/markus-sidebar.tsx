@@ -11,6 +11,7 @@ import {
     Search,
     Settings,
     Share2,
+    User,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import MarkusLogo from '@/components/markus/markus-logo';
@@ -21,6 +22,7 @@ import agents from '@/routes/agents';
 import analytics from '@/routes/analytics';
 import content from '@/routes/content';
 import onboarding from '@/routes/onboarding';
+import { edit as editProfile } from '@/routes/profile';
 
 type NavLink = {
     id: string;
@@ -164,6 +166,29 @@ export function MarkusSidebar() {
                         );
                     })}
                 </nav>
+
+                <div className="mt-4 border-t border-[#1F1F23] pt-4 px-3">
+                    <Link
+                        href={editProfile()}
+                        prefetch
+                        className={cn(
+                            'flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                            url.startsWith('/settings')
+                                ? 'bg-[#1C1C21] text-white'
+                                : 'text-[#9A9A9E] hover:bg-[#15151A]',
+                        )}
+                    >
+                        <User
+                            className={cn(
+                                'h-5 w-5',
+                                url.startsWith('/settings')
+                                    ? 'text-[#D4AF37]'
+                                    : 'text-[#6B6B76]',
+                            )}
+                        />
+                        Profile & Settings
+                    </Link>
+                </div>
 
                 <div className="mt-8 px-6">
                     <h3 className="mb-3 text-[10px] font-bold tracking-widest text-[#6B6B76] uppercase">

@@ -1,8 +1,9 @@
-// Components
 import { Form, Head } from '@inertiajs/react';
-import TextLink from '@/components/text-link';
-import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
+import {
+    MarkusButton,
+    MarkusSpinner,
+    MarkusTextLink,
+} from '@/components/markus/markus-ui';
 import { logout } from '@/routes';
 import { send } from '@/routes/verification';
 
@@ -12,7 +13,7 @@ export default function VerifyEmail({ status }: { status?: string }) {
             <Head title="Email verification" />
 
             {status === 'verification-link-sent' && (
-                <div className="mb-4 text-center text-sm font-medium text-green-600">
+                <div className="mb-4 text-center text-sm font-medium text-emerald-400">
                     A new verification link has been sent to the email address
                     you provided during registration.
                 </div>
@@ -21,17 +22,17 @@ export default function VerifyEmail({ status }: { status?: string }) {
             <Form {...send.form()} className="space-y-6 text-center">
                 {({ processing }) => (
                     <>
-                        <Button disabled={processing} variant="secondary">
-                            {processing && <Spinner />}
+                        <MarkusButton disabled={processing} variant="secondary" className="w-full">
+                            {processing && <MarkusSpinner />}
                             Resend verification email
-                        </Button>
+                        </MarkusButton>
 
-                        <TextLink
+                        <MarkusTextLink
                             href={logout()}
                             className="mx-auto block text-sm"
                         >
                             Log out
-                        </TextLink>
+                        </MarkusTextLink>
                     </>
                 )}
             </Form>

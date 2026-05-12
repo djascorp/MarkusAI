@@ -1,12 +1,13 @@
 import { Form, Head } from '@inertiajs/react';
-import InputError from '@/components/input-error';
-import PasswordInput from '@/components/password-input';
-import TextLink from '@/components/text-link';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Spinner } from '@/components/ui/spinner';
+import {
+    MarkusButton,
+    MarkusInput,
+    MarkusInputError,
+    MarkusLabel,
+    MarkusPasswordInput,
+    MarkusSpinner,
+    MarkusTextLink,
+} from '@/components/markus/markus-ui';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
@@ -17,11 +18,7 @@ type Props = {
     canRegister: boolean;
 };
 
-export default function Login({
-    status,
-    canResetPassword,
-    canRegister,
-}: Props) {
+export default function Login({ status, canResetPassword, canRegister }: Props) {
     return (
         <>
             <Head title="Log in" />
@@ -35,8 +32,8 @@ export default function Login({
                     <>
                         <div className="grid gap-6">
                             <div className="grid gap-2">
-                                <Label htmlFor="email">Email address</Label>
-                                <Input
+                                <MarkusLabel htmlFor="email">Email address</MarkusLabel>
+                                <MarkusInput
                                     id="email"
                                     type="email"
                                     name="email"
@@ -46,23 +43,23 @@ export default function Login({
                                     autoComplete="email"
                                     placeholder="email@example.com"
                                 />
-                                <InputError message={errors.email} />
+                                <MarkusInputError message={errors.email} />
                             </div>
 
                             <div className="grid gap-2">
-                                <div className="flex items-center">
-                                    <Label htmlFor="password">Password</Label>
+                                <div className="flex items-center justify-between">
+                                    <MarkusLabel htmlFor="password">Password</MarkusLabel>
                                     {canResetPassword && (
-                                        <TextLink
+                                        <MarkusTextLink
                                             href={request()}
-                                            className="ml-auto text-sm"
+                                            className="text-xs"
                                             tabIndex={5}
                                         >
                                             Forgot password?
-                                        </TextLink>
+                                        </MarkusTextLink>
                                     )}
                                 </div>
-                                <PasswordInput
+                                <MarkusPasswordInput
                                     id="password"
                                     name="password"
                                     required
@@ -70,36 +67,38 @@ export default function Login({
                                     autoComplete="current-password"
                                     placeholder="Password"
                                 />
-                                <InputError message={errors.password} />
+                                <MarkusInputError message={errors.password} />
                             </div>
 
-                            <div className="flex items-center space-x-3">
-                                <Checkbox
+                            <label className="flex items-center gap-3 cursor-pointer">
+                                <input
+                                    type="checkbox"
                                     id="remember"
                                     name="remember"
                                     tabIndex={3}
+                                    className="h-4 w-4 rounded border-[#1F1F23] bg-[#0E0E11] text-[#D4AF37] focus:ring-[#D4AF37]"
                                 />
-                                <Label htmlFor="remember">Remember me</Label>
-                            </div>
+                                <span className="text-sm text-[#9A9A9E]">Remember me</span>
+                            </label>
 
-                            <Button
+                            <MarkusButton
                                 type="submit"
                                 className="mt-4 w-full"
                                 tabIndex={4}
                                 disabled={processing}
                                 data-test="login-button"
                             >
-                                {processing && <Spinner />}
+                                {processing && <MarkusSpinner />}
                                 Log in
-                            </Button>
+                            </MarkusButton>
                         </div>
 
                         {canRegister && (
-                            <div className="text-center text-sm text-muted-foreground">
-                                Don't have an account?{' '}
-                                <TextLink href={register()} tabIndex={5}>
+                            <div className="text-center text-sm text-[#6B6B76]">
+                                Don&apos;t have an account?{' '}
+                                <MarkusTextLink href={register()} tabIndex={5}>
                                     Sign up
-                                </TextLink>
+                                </MarkusTextLink>
                             </div>
                         )}
                     </>
@@ -107,7 +106,7 @@ export default function Login({
             </Form>
 
             {status && (
-                <div className="mb-4 text-center text-sm font-medium text-green-600">
+                <div className="mb-4 text-center text-sm font-medium text-emerald-400">
                     {status}
                 </div>
             )}
