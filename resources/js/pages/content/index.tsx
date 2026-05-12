@@ -17,9 +17,10 @@ import {
     MarkusCardHeader,
     MarkusCardTitle,
 } from '@/components/markus/markus-ui';
+import { GenerateContentDialog } from '@/components/markus/generate-content-dialog';
 import type { Draft } from '@/types/marketing';
 
-export default function ContentIndex({ drafts }: { drafts: Draft[] }) {
+export default function ContentIndex({ drafts, agents }: { drafts: Draft[]; agents: { id: number; name: string }[] }) {
     const pending = drafts.filter((draft) => draft.status === 'Pending Review');
     const others = drafts.filter((draft) => draft.status !== 'Pending Review');
 
@@ -37,6 +38,7 @@ export default function ContentIndex({ drafts }: { drafts: Draft[] }) {
                         </p>
                     </div>
                     <div className="flex flex-wrap gap-2 sm:gap-3">
+                        <GenerateContentDialog agents={agents} />
                         <select className="rounded-md border border-[#1F1F23] bg-[#0E0E11] px-3 py-2 text-sm text-[#E0E0E1] focus:border-[#D4AF37] focus:ring-[#D4AF37]">
                             <option>All Types</option>
                             <option>Blog Posts</option>

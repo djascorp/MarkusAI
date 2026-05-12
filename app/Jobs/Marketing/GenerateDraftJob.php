@@ -5,10 +5,11 @@ namespace App\Jobs\Marketing;
 use App\Models\Agent;
 use App\Models\AgentLog;
 use App\Models\Workspace;
-use App\Services\LLM\OpenAIClient;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
+use Laravel\Ai\AiManager;
+use Laravel\Ai\Prompts\AgentPrompt;
 
 class GenerateDraftJob implements ShouldQueue
 {
@@ -29,7 +30,7 @@ class GenerateDraftJob implements ShouldQueue
         public ?string $targetChannel = null,
     ) {}
 
-    public function handle(OpenAIClient $llm): void
+    public function handle(AiManager $ai): void
     {
         $workspace = Workspace::find($this->workspaceId);
         $agent = Agent::find($this->agentId);
@@ -50,18 +51,30 @@ class GenerateDraftJob implements ShouldQueue
 
         try {
             $systemPrompt = $this->buildSystemPrompt($workspace, $agent);
-            $result = $llm->generate($systemPrompt, $this->userPrompt);
+
+            $response = $ai->textProvider()->prompt(
+                new AgentPrompt(
+                    agent: \Laravel\Ai\agent($systemPrompt),
+                    prompt: $this->userPrompt,
+                    provider: $ai->textProvider(),
+                    model: $ai->textProvider()->defaultTextModel(),
+                    timeout: 120,
+                ),
+            );
+
+            $content = $response->text;
+            $tokensUsed = $response->usage->promptTokens + $response->usage->completionTokens;
 
             $draft = $workspace->drafts()->create([
                 'agent_id' => $agent->id,
                 'title' => $this->title,
                 'type' => $this->type,
-                'content' => $result['content'],
+                'content' => $content,
                 'status' => 'pending_review',
                 'metadata' => [
-                    'word_count' => str_word_count(strip_tags($result['content'])),
-                    'tokens_used' => $result['tokens_used'],
-                    'model' => $result['model'],
+                    'word_count' => str_word_count(strip_tags($content)),
+                    'tokens_used' => $tokensUsed,
+                    'model' => $ai->textProvider()->defaultTextModel(),
                     'score' => 0,
                 ],
                 'target_channel' => $this->targetChannel,
@@ -70,8 +83,8 @@ class GenerateDraftJob implements ShouldQueue
             $agentLog->update([
                 'status' => 'success',
                 'output' => ['draft_id' => $draft->id],
-                'tokens_used' => $result['tokens_used'],
-                'duration_ms' => $result['duration_ms'],
+                'tokens_used' => $tokensUsed,
+                'duration_ms' => $startTime->diffInMilliseconds(now()),
             ]);
 
             $agent->update(['last_run_at' => now()]);
