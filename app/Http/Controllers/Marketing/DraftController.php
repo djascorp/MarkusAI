@@ -8,12 +8,12 @@ use App\Actions\Marketing\GenerateDraftAction;
 use App\Http\Controllers\Controller;
 use App\Models\Agent;
 use App\Models\Draft;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 
 final class DraftController extends Controller
 {
-    public function generate(Request $request, GenerateDraftAction $action): JsonResponse
+    public function generate(Request $request, GenerateDraftAction $action): RedirectResponse
     {
         $validated = $request->validate([
             'agent_id' => 'required|exists:agents,id',
@@ -37,12 +37,12 @@ final class DraftController extends Controller
             targetChannel: $validated['target_channel'] ?? null,
         );
 
-        return response()->json([
-            'message' => 'Draft generation started. The Writer Agent is working on it.',
-        ], 202);
+        return redirect()
+            ->route('content.index')
+            ->with('success', 'Draft generation started. The Writer Agent is working on it.');
     }
 
-    public function approve(Request $request, int $draft): JsonResponse
+    public function approve(Request $request, int $draft): RedirectResponse
     {
         $workspace = $request->attributes->get('workspace');
 
@@ -52,12 +52,12 @@ final class DraftController extends Controller
 
         $draft->update(['status' => 'approved']);
 
-        return response()->json([
-            'message' => 'Draft approved.',
-        ]);
+        return redirect()
+            ->route('content.index')
+            ->with('success', 'Draft approved.');
     }
 
-    public function reject(Request $request, int $draft): JsonResponse
+    public function reject(Request $request, int $draft): RedirectResponse
     {
         $workspace = $request->attributes->get('workspace');
 
@@ -67,8 +67,8 @@ final class DraftController extends Controller
 
         $draft->update(['status' => 'rejected']);
 
-        return response()->json([
-            'message' => 'Draft rejected.',
-        ]);
+        return redirect()
+            ->route('content.index')
+            ->with('success', 'Draft rejected.');
     }
 }
