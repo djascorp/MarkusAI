@@ -36,9 +36,9 @@ export default function Dashboard({
         <>
             <Head title="CMO Dashboard" />
             <div className="animate-in space-y-6 duration-500 fade-in slide-in-from-bottom-4">
-                <div className="flex items-end justify-between">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-[#E0E0E1]">
+                        <h1 className="text-2xl font-bold tracking-tight text-[#E0E0E1] md:text-3xl">
                             CMO Dashboard
                         </h1>
                         <p className="mt-1 text-[#6B6B76]">
@@ -46,11 +46,11 @@ export default function Dashboard({
                             the last 30 days.
                         </p>
                     </div>
-                    <div className="flex gap-3">
-                        <MarkusButton variant="outline">
+                    <div className="flex flex-wrap gap-2 sm:gap-3">
+                        <MarkusButton variant="outline" className="text-sm">
                             Download Report
                         </MarkusButton>
-                        <MarkusButton>Approve Priorities (3)</MarkusButton>
+                        <MarkusButton className="text-sm">Approve Priorities (3)</MarkusButton>
                     </div>
                 </div>
 
@@ -139,7 +139,7 @@ export default function Dashboard({
                     {/* Main Chart */}
                     <MarkusCard className="lg:col-span-2">
                         <MarkusCardHeader>
-                            <div className="flex items-center justify-between">
+                            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                                 <div>
                                     <MarkusCardTitle>
                                         Organic Traffic Growth

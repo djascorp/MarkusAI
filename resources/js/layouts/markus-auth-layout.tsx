@@ -11,8 +11,8 @@ type Props = {
 
 export default function MarkusAuthLayout({ title, description, children }: Props) {
     return (
-        <div className="dark flex min-h-screen items-center justify-center bg-[#0A0A0B] font-sans text-[#E0E0E1]">
-            <div className="flex w-full max-w-sm flex-col gap-8">
+        <div className="dark flex min-h-dvh items-center justify-center bg-[#0A0A0B] px-4 py-8 font-sans text-[#E0E0E1] sm:px-6">
+            <div className="flex w-full max-w-sm flex-col gap-6 sm:gap-8">
                 <div className="flex flex-col items-center gap-4">
                     <Link href={home()} className="flex flex-col items-center gap-2">
                         <MarkusLogo />

@@ -28,7 +28,7 @@ export default function MarkusSettingsLayout({ children }: PropsWithChildren) {
 
             <div className="flex flex-col gap-8 lg:flex-row">
                 <aside className="w-full lg:w-48">
-                    <nav className="flex flex-col space-y-1" aria-label="Settings">
+                    <nav className="flex gap-1 overflow-x-auto lg:flex-col lg:space-y-1" aria-label="Settings">
                         {sidebarNavItems.map((item) => (
                             <Link
                                 key={item.href.url}

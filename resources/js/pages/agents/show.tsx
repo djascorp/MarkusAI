@@ -35,11 +35,11 @@ export default function AgentShow({ agent }: { agent: AgentDetail }) {
         <>
             <Head title={agent.name} />
             <div className="animate-in space-y-6 duration-500 fade-in slide-in-from-bottom-4">
-                <div className="flex items-start justify-between">
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                     <div className="flex items-center gap-4">
-                        <div className="flex h-16 w-16 items-center justify-center rounded-2xl border border-[#1F1F23] bg-[#0E0E11] shadow-sm">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#1F1F23] bg-[#0E0E11] shadow-sm md:h-16 md:w-16">
                             <div className="relative">
-                                <Activity className="h-8 w-8 text-[#D4AF37]" />
+                                <Activity className="h-6 w-6 text-[#D4AF37] md:h-8 md:w-8" />
                                 {agent.status === 'Active' && (
                                     <span className="absolute -top-1 -right-1 flex h-3 w-3">
                                         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
@@ -49,8 +49,8 @@ export default function AgentShow({ agent }: { agent: AgentDetail }) {
                             </div>
                         </div>
                         <div>
-                            <div className="flex items-center gap-3">
-                                <h1 className="text-3xl font-bold tracking-tight text-[#E0E0E1]">
+                            <div className="flex flex-wrap items-center gap-2 md:gap-3">
+                                <h1 className="text-2xl font-bold tracking-tight text-[#E0E0E1] md:text-3xl">
                                     {agent.name}
                                 </h1>
                                 <MarkusBadge
@@ -59,12 +59,12 @@ export default function AgentShow({ agent }: { agent: AgentDetail }) {
                                     {agent.status}
                                 </MarkusBadge>
                             </div>
-                            <p className="mt-1 text-[#6B6B76]">
+                            <p className="mt-1 text-sm text-[#6B6B76] md:text-base">
                                 {agent.description}
                             </p>
                         </div>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                         {agent.status !== 'Idle' ? (
                             <MarkusButton
                                 variant="outline"

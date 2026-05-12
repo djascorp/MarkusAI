@@ -56,9 +56,9 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
 
             <div className="dark flex min-h-screen flex-col bg-[#0A0A0B] font-sans text-[#E0E0E1]">
                 {/* Header */}
-                <header className="flex items-center justify-between border-b border-[#1F1F23] px-6 py-4 lg:px-12">
+                <header className="flex items-center justify-between border-b border-[#1F1F23] px-4 py-3 md:px-6 md:py-4 lg:px-12">
                     <MarkusLogo />
-                    <nav className="flex items-center gap-4">
+                    <nav className="flex items-center gap-2 md:gap-4">
                         {auth.user ? (
                             <Link href={dashboard()}>
                                 <MarkusButton>
@@ -68,11 +68,11 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                         ) : (
                             <>
                                 <Link href={login()}>
-                                    <MarkusButton variant="ghost">Log in</MarkusButton>
+                                    <MarkusButton variant="ghost" className="text-sm md:text-base">Log in</MarkusButton>
                                 </Link>
                                 {canRegister && (
                                     <Link href={register()}>
-                                        <MarkusButton>
+                                        <MarkusButton className="text-sm md:text-base">
                                             Get Started <ArrowRight className="ml-2 h-4 w-4" />
                                         </MarkusButton>
                                     </Link>
@@ -83,39 +83,39 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                 </header>
 
                 {/* Hero */}
-                <section className="flex flex-1 flex-col items-center justify-center px-6 py-24 text-center">
-                    <div className="flex items-center gap-2 rounded-full border border-[#D4AF37]/20 bg-[#D4AF37]/10 px-4 py-1.5 text-xs font-medium text-[#D4AF37]">
+                <section className="flex flex-1 flex-col items-center justify-center px-4 py-12 text-center md:px-6 md:py-24">
+                    <div className="flex items-center gap-2 rounded-full border border-[#D4AF37]/20 bg-[#D4AF37]/10 px-3 py-1.5 text-xs font-medium text-[#D4AF37] md:px-4">
                         <Zap className="h-3 w-3" />
                         Your AI-Powered Marketing Team
                     </div>
 
-                    <h1 className="mt-8 max-w-3xl text-5xl font-bold tracking-tight text-[#E0E0E1] lg:text-6xl">
+                    <h1 className="mt-6 max-w-3xl text-3xl font-bold tracking-tight text-[#E0E0E1] sm:text-4xl md:mt-8 md:text-5xl lg:text-6xl">
                         Meet your <span className="text-[#D4AF37]">CMO</span>,{' '}
                         powered by 8 AI agents
                     </h1>
 
-                    <p className="mt-6 max-w-xl text-lg text-[#6B6B76]">
+                    <p className="mt-4 max-w-xl text-base text-[#6B6B76] md:mt-6 md:text-lg">
                         MarkusAI deploys a team of specialized AI agents that handle
                         SEO, content creation, social media, and community engagement
                         autonomously.
                     </p>
 
-                    <div className="mt-10 flex items-center gap-4">
+                    <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 md:mt-10">
                         {!auth.user && canRegister && (
-                            <Link href={register()}>
-                                <MarkusButton size="lg">
+                            <Link href={register()} className="w-full sm:w-auto">
+                                <MarkusButton size="lg" className="w-full sm:w-auto">
                                     Start Free Trial <ArrowRight className="ml-2 h-4 w-4" />
                                 </MarkusButton>
                             </Link>
                         )}
-                        <Link href={login()}>
-                            <MarkusButton variant="outline" size="lg">
+                        <Link href={login()} className="w-full sm:w-auto">
+                            <MarkusButton variant="outline" size="lg" className="w-full sm:w-auto">
                                 Watch Demo
                             </MarkusButton>
                         </Link>
                     </div>
 
-                    <div className="mt-6 flex items-center gap-6 text-sm text-[#6B6B76]">
+                    <div className="mt-6 flex flex-col items-center gap-3 text-sm text-[#6B6B76] sm:flex-row sm:gap-6">
                         <div className="flex items-center gap-2">
                             <span className="h-2 w-2 rounded-full bg-emerald-500" />
                             All agents active
@@ -128,7 +128,7 @@ export default function Welcome({ canRegister = true }: { canRegister?: boolean 
                 </section>
 
                 {/* Features Grid */}
-                <section className="border-t border-[#1F1F23] px-6 py-20 lg:px-12">
+                <section className="border-t border-[#1F1F23] px-4 py-12 md:px-6 md:py-20 lg:px-12">
                     <div className="mx-auto max-w-5xl">
                         <h2 className="mb-2 text-center text-2xl font-bold tracking-tight text-[#E0E0E1]">
                             Specialized agents for every channel

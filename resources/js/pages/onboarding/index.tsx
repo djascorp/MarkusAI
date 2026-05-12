@@ -105,19 +105,19 @@ export default function OnboardingIndex({ agents, goals }: OnboardingPayload) {
                         </MarkusCardHeader>
                         <MarkusCardContent className="pt-6">
                             <div className="space-y-4">
-                                <div className="relative">
+                                <div className="flex flex-col gap-2 sm:relative sm:flex-row">
                                     <input
                                         type="url"
                                         value={url}
                                         onChange={(e) => setUrl(e.target.value)}
                                         placeholder="https://yourstartup.com"
-                                        className="block w-full rounded-xl border border-[#1F1F23]/50 bg-[#0E0E11] py-4 pr-32 pl-4 text-lg text-[#E0E0E1] placeholder-[#6B6B76] focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37]"
+                                        className="block w-full rounded-xl border border-[#1F1F23]/50 bg-[#0E0E11] py-4 pl-4 pr-4 text-base text-[#E0E0E1] placeholder-[#6B6B76] focus:border-[#D4AF37] focus:ring-2 focus:ring-[#D4AF37] sm:pr-32 sm:text-lg"
                                     />
-                                    <div className="absolute inset-y-2 right-2 flex items-center">
+                                    <div className="sm:absolute sm:inset-y-2 sm:right-2 sm:flex sm:items-center">
                                         <MarkusButton
                                             onClick={handleAnalyze}
                                             disabled={!url || isAnalyzing}
-                                            className="h-full px-6 transition-all"
+                                            className="w-full px-6 transition-all sm:h-full sm:w-auto"
                                         >
                                             {isAnalyzing ? (
                                                 <>
@@ -160,7 +160,7 @@ export default function OnboardingIndex({ agents, goals }: OnboardingPayload) {
                             </div>
                         </MarkusCardHeader>
                         <MarkusCardContent className="space-y-6">
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <div className="rounded-xl border border-[#1F1F23] bg-[#111114] p-4">
                                     <h4 className="mb-2 flex items-center text-sm font-semibold text-[#E0E0E1]">
                                         <Target className="mr-1.5 h-4 w-4 text-[#6B6B76]" />{' '}

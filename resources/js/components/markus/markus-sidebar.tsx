@@ -12,9 +12,11 @@ import {
     Settings,
     Share2,
     User,
+    X,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import MarkusLogo from '@/components/markus/markus-logo';
+import { useSidebar } from '@/components/markus/sidebar-context';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
@@ -119,6 +121,7 @@ const agentLinks: NavLink[] = [
 
 export function MarkusSidebar() {
     const { url, props } = usePage();
+    const { close } = useSidebar();
     const getInitials = useInitials();
     const user = props.auth?.user;
     const userInitials = user ? getInitials(user.name) : 'JR';
@@ -127,12 +130,22 @@ export function MarkusSidebar() {
     const isActive = (item: NavLink) =>
         item.matches ? item.matches(url) : url.startsWith(item.href);
 
+    const handleNav = () => close();
+
     return (
-        <aside className="flex h-full w-64 flex-shrink-0 flex-col border-r border-[#1F1F23] bg-[#0A0A0B]">
-            <div className="flex h-16 items-center border-b border-[#1F1F23] px-6">
-                <Link href={dashboard().url} prefetch>
+        <div className="flex h-full flex-col">
+            {/* Header with close button on mobile */}
+            <div className="flex h-16 items-center justify-between border-b border-[#1F1F23] px-6">
+                <Link href={dashboard().url} prefetch onClick={handleNav}>
                     <MarkusLogo />
                 </Link>
+                <button
+                    onClick={close}
+                    className="rounded-md p-1 text-[#6B6B76] hover:bg-[#15151A] hover:text-[#E0E0E1] lg:hidden"
+                    aria-label="Close menu"
+                >
+                    <X className="h-5 w-5" />
+                </button>
             </div>
 
             <div className="flex-1 overflow-y-auto py-4">
@@ -146,6 +159,7 @@ export function MarkusSidebar() {
                                 key={item.id}
                                 href={item.href}
                                 prefetch
+                                onClick={handleNav}
                                 className={cn(
                                     'flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors',
                                     active
@@ -167,10 +181,11 @@ export function MarkusSidebar() {
                     })}
                 </nav>
 
-                <div className="mt-4 border-t border-[#1F1F23] pt-4 px-3">
+                <div className="mt-4 border-t border-[#1F1F23] px-3 pt-4">
                     <Link
                         href={editProfile()}
                         prefetch
+                        onClick={handleNav}
                         className={cn(
                             'flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors',
                             url.startsWith('/settings')
@@ -203,6 +218,7 @@ export function MarkusSidebar() {
                                     key={item.id}
                                     href={item.href}
                                     prefetch
+                                    onClick={handleNav}
                                     className={cn(
                                         'flex w-full items-center gap-3 rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
                                         active
@@ -236,6 +252,6 @@ export function MarkusSidebar() {
                     </div>
                 </div>
             </div>
-        </aside>
+        </div>
     );
 }

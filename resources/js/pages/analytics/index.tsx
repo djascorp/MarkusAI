@@ -40,16 +40,16 @@ export default function AnalyticsIndex({
         <>
             <Head title="ROI & Analytics" />
             <div className="animate-in space-y-6 duration-500 fade-in slide-in-from-bottom-4">
-                <div className="flex items-end justify-between">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-[#E0E0E1]">
+                        <h1 className="text-2xl font-bold tracking-tight text-[#E0E0E1] md:text-3xl">
                             ROI &amp; Analytics
                         </h1>
                         <p className="mt-1 text-[#6B6B76]">
                             Track the performance and ROI of your AI CMO team.
                         </p>
                     </div>
-                    <div className="flex gap-3">
+                    <div className="flex flex-wrap gap-2 sm:gap-3">
                         <select className="rounded-md border border-[#1F1F23] bg-[#0E0E11] px-3 py-2 text-sm text-[#E0E0E1] focus:border-[#D4AF37] focus:ring-[#D4AF37]">
                             <option>Last 30 Days</option>
                             <option>This Quarter</option>
@@ -178,7 +178,7 @@ export default function AnalyticsIndex({
                                 Which sources are driving conversions
                             </MarkusCardDescription>
                         </MarkusCardHeader>
-                        <MarkusCardContent className="flex items-center justify-center pb-2">
+                        <MarkusCardContent className="flex flex-col items-center justify-center gap-4 pb-2 md:flex-row">
                             <div className="h-[250px] w-full max-w-[300px]">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <PieChart>
@@ -208,7 +208,7 @@ export default function AnalyticsIndex({
                                     </PieChart>
                                 </ResponsiveContainer>
                             </div>
-                            <div className="flex-1 space-y-3 pl-4">
+                            <div className="w-full space-y-3 md:flex-1 md:pl-4">
                                 {attribution.map((item) => (
                                     <div
                                         key={item.name}
@@ -246,7 +246,7 @@ export default function AnalyticsIndex({
                     </MarkusCardHeader>
                     <MarkusCardContent>
                         <div className="overflow-x-auto">
-                            <table className="w-full text-left text-sm">
+                            <table className="w-full min-w-[600px] text-left text-sm">
                                 <thead className="border-b border-[#1F1F23] bg-[#111114] text-xs text-[#6B6B76] uppercase">
                                     <tr>
                                         <th className="px-6 py-3 font-medium">
