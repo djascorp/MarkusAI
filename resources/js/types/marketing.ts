@@ -38,6 +38,23 @@ export type Draft = {
     scheduled: string | null;
 };
 
+export type GenerateDraftRequest = {
+    agent_id: number;
+    title: string;
+    type: DraftType;
+    prompt: string;
+    target_channel?: string;
+};
+
+export type DraftType =
+    | 'blog_post'
+    | 'social_post'
+    | 'email'
+    | 'reddit_comment'
+    | 'linkedin_article'
+    | 'landing_page'
+    | 'newsletter';
+
 export type DashboardSnapshot = {
     metrics: {
         healthScore: { value: number; delta: number };

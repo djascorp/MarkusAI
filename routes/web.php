@@ -4,6 +4,7 @@ use App\Http\Controllers\Marketing\AgentController;
 use App\Http\Controllers\Marketing\AnalyticsController;
 use App\Http\Controllers\Marketing\ContentController;
 use App\Http\Controllers\Marketing\DashboardController;
+use App\Http\Controllers\Marketing\DraftController;
 use App\Http\Controllers\Marketing\OnboardingController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Features;
@@ -17,19 +18,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('agents', [AgentController::class, 'index'])->name('agents.index');
     Route::get('agents/{agent}', [AgentController::class, 'show'])
-        ->whereIn('agent', [
-            'agent_seo',
-            'agent_geo',
-            'agent_writer',
-            'agent_reddit',
-            'agent_hn',
-            'agent_x',
-            'agent_linkedin',
-            'agent_coding',
-        ])
+        ->whereNumber('agent')
         ->name('agents.show');
 
     Route::get('content', ContentController::class)->name('content.index');
+
+    Route::post('drafts/generate', [DraftController::class, 'generate'])->name('drafts.generate');
+    Route::post('drafts/{draft}/approve', [DraftController::class, 'approve'])->name('drafts.approve');
+    Route::post('drafts/{draft}/reject', [DraftController::class, 'reject'])->name('drafts.reject');
+
     Route::get('analytics', AnalyticsController::class)->name('analytics.index');
     Route::get('onboarding', OnboardingController::class)->name('onboarding.index');
 });

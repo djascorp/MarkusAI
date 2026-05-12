@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Contracts\AgentRepositoryInterface;
+use App\Contracts\DraftRepositoryInterface;
+use App\Repositories\EloquentAgentRepository;
+use App\Repositories\EloquentDraftRepository;
+use App\Services\LLM\OpenAIClient;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +20,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(AgentRepositoryInterface::class, EloquentAgentRepository::class);
+        $this->app->bind(DraftRepositoryInterface::class, EloquentDraftRepository::class);
+
+        $this->app->bind(OpenAIClient::class, function ($app) {
+            return new OpenAIClient(
+                apiKey: config('services.openai.api_key', ''),
+                model: config('services.openai.model', 'gpt-4o-mini'),
+            );
+        });
     }
 
     /**

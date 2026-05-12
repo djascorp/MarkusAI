@@ -31,4 +31,16 @@ class User extends Authenticatable
             'two_factor_confirmed_at' => 'datetime',
         ];
     }
+
+    public function workspaces()
+    {
+        return $this->belongsToMany(Workspace::class, 'workspace_users')
+            ->withPivot('role')
+            ->withTimestamps();
+    }
+
+    public function currentWorkspace(): ?Workspace
+    {
+        return $this->workspaces()->first();
+    }
 }
