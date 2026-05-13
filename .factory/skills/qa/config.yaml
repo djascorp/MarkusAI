@@ -1,0 +1,72 @@
+project: MarkusAI
+imagemagick: true
+
+environments:
+  local:
+    url: http://localhost:8000
+    restrictions: []
+
+default_target: local
+
+auth:
+  method: email-password
+  provider: laravel_fortify
+  features:
+    - registration
+    - password_reset
+    - email_verification
+    - two_factor
+
+personas:
+  - name: owner
+    description: "Workspace owner with full access to all features"
+    email_pattern: "qa+owner_{RUN_ID}@markusai.test"
+    credentials_source: signup
+    test_focus:
+      - onboarding
+      - content_generation
+      - content_review
+      - agent_management
+      - dashboard
+      - settings
+    cannot_do: []
+
+  - name: new_user
+    description: "Fresh signup, no existing workspace or data"
+    email_pattern: "qa+signup_{RUN_ID}@markusai.test"
+    credentials_source: signup
+    test_focus:
+      - registration
+      - empty_states
+      - first_run_experience
+      - onboarding
+    cannot_do: []
+
+apps:
+  web:
+    path_patterns:
+      - "app/**"
+      - "resources/js/**"
+      - "routes/**"
+      - "config/**"
+      - "database/**"
+      - "public/**"
+    skill: qa-web
+    test_tool: agent-browser
+    build_command: "npm run build"
+    dev_command: "composer run dev"
+
+feature_flags:
+  provider: none
+
+integrations:
+  ai:
+    provider: zai
+    model: glm-4.7
+
+cleanup:
+  auto_cleanup: true
+  strategy: refresh_database
+  instructions: "Use php artisan migrate:fresh to reset the database before each QA run"
+
+failure_learning: auto_commit

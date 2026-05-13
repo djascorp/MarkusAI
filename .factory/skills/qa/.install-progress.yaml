@@ -1,0 +1,56 @@
+phase: complete
+project: MarkusAI
+codebase_analysis:
+  app_type: laravel_inertia_react
+  monorepo: false
+  apps:
+    - name: web
+      type: web_frontend_and_backend
+      path_patterns:
+        - "app/**"
+        - "resources/js/**"
+        - "routes/**"
+        - "config/**"
+        - "database/**"
+  auth:
+    method: email-password
+    provider: laravel_fortify
+    features: [registration, password_reset, email_verification, two_factor]
+  environments:
+    local:
+      url: "http://localhost:8000"
+  feature_flags: none
+  integrations:
+    ai:
+      provider: zai
+      model: glm-4.7
+  ci_cd: none
+  test_framework: pest_4
+  imagemagick: true
+questionnaire:
+  default_target: local
+  personas:
+    - name: owner
+      description: "Workspace owner with full access"
+      email_pattern: "qa+owner_{RUN_ID}@test.com"
+      credentials_source: signup
+      test_focus: [onboarding, content_generation, agent_management, settings]
+      cannot_do: []
+    - name: new_user
+      description: "Fresh signup, no existing data"
+      email_pattern: "qa+signup_{RUN_ID}@test.com"
+      test_focus: [registration, empty_states, first_run_experience]
+      cannot_do: []
+  critical_flows:
+    - registration
+    - login
+    - onboarding
+    - dashboard
+    - content_generation
+    - content_review
+    - agent_management
+    - settings
+  cleanup:
+    strategy: refresh_database
+  failure_learning: auto_commit
+  github_actions: false
